@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+           
+	  <bean id="basicInfoTemplate" class="com.cdg.mtsbank.report.BasicInfo">
+		  <property name="localPath">
+		       <value>d:/mtsnb_report</value>
+		  </property>
+		   <property name="userName">
+			<value>gongyanbo</value>
+		</property>
+		<property name="password">
+			<value>1qaz%40WSX</value>
+		</property>
+		<property name="bankNO">
+			<value>0408</value>
+		</property>
+		<property name="serverIP">
+			<value>192.168.31.111/mtsnb_report</value>
+		</property>
+		<property name="address">
+			<value>http://192.168.100.239:7041/mts-web/services/ReleaseReportWebService</value>
+		</property>
+	 </bean>
+	 <!-- 31.1.0.73  foraml -->
+	 
+	 
+	  <!--初审时效报表-->
+	 <bean id="flowTimeReport" class="com.cdg.mtsbank.report.FlowTimeReport">
+		 <property name="basicInfo">
+		 	<ref bean="basicInfoTemplate"/>
+		 </property>
+	 </bean>
+	 <!--退回原因报表  -->
+	 <bean id="backReasonReport" class="com.cdg.mtsbank.report.BackReasonReport">
+	 	  <property name="basicInfo">
+		 	<ref bean="basicInfoTemplate"/>
+		 </property>
+	 </bean>
+	 <!--废件报表  -->
+	 <bean id="scrapedReport" class="com.cdg.mtsbank.report.ScrapedReport">
+	 	  <property name="basicInfo">
+		 	<ref bean="basicInfoTemplate"/>
+		 </property>
+	 </bean>
+	 
+	  <!--个人进件量报表-->
+	 <bean id="dailyAmountReport" class="com.cdg.mtsbank.report.DailyAmountReport">
+		 <property name="basicInfo">
+		 	<ref bean="basicInfoTemplate"/>
+		 </property>
+	 </bean>
+	  <!--全流程报表-->
+	 <bean id="allFlowTimeReport" class="com.cdg.mtsbank.report.AllFlowTimeReport">
+		 <property name="basicInfo">
+		 	<ref bean="basicInfoTemplate"/>
+		 </property>
+	 </bean>
+	 
+   <import resource="/job.xml"></import>
+ 
+
+</beans>

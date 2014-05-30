@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans     
+    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd     
+    http://www.springframework.org/schema/aop     
+    http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+	<!-- 废件报表-job -->
+	<bean id="scrapReportTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="scrapedReport" />
+		</property>
+		<property name="targetMethod">
+			<value>getScrapedReport</value>
+		</property>
+	</bean>
+
+	<!-- 废件报表-定义触发时间 -->
+	<bean id="scrapReportTime"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="scrapReportTask" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 2 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 补件原因报表-job -->
+	<bean id="backReasonReportTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="backReasonReport" />
+		</property>
+		<property name="targetMethod">
+			<value>getBackReasonReport</value>
+		</property>
+	</bean>
+
+	<!-- 补件原因报表-定义触发时间 -->
+	<bean id="backReasonReportTime"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="backReasonReportTask" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 3 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 各用户进件量报表-job -->
+	<bean id="dailyAmountReportTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="dailyAmountReport" />
+		</property>
+		<property name="targetMethod">
+			<value>getDailyAmountReport</value>
+		</property>
+	</bean>
+
+	<!-- 各用户进件量报表-定义触发时间 -->
+	<bean id="dailyAmountReportTaskTime"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="dailyAmountReportTask" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 4 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 全流程报表-job -->
+	<bean id="allFlowTimeReportTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="allFlowTimeReport" />
+		</property>
+		<property name="targetMethod">
+			<value>getAllFlowTimeReport</value>
+		</property>
+	</bean>
+
+	<!-- 全流程报表-定义触发时间 -->
+	<bean id="allFlowTimeReportTime"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="allFlowTimeReportTask" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 5 * * ?</value>
+		</property>
+	</bean>
+	
+
+	
+	<!-- 时效报表-job -->
+	<bean id="flowTimeReportTask"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="flowTimeReport" />
+		</property>
+		<property name="targetMethod">
+			<value>getFlowTimeReport</value>
+		</property>
+	</bean>
+
+	<!-- 时效报表-定义触发时间 -->
+	<bean id="flowTimeReportTime"
+		class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="flowTimeReportTask" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 7 * * ?</value>
+		</property>
+	</bean>
+	
+
+	<!-- 总管理类如果将lazy-init='false' 那么容器启动就会执行调度程序 -->
+	<bean id="startQuertz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers"> 
+			<list>
+				<ref bean="scrapReportTime" /> 
+				<ref bean="backReasonReportTime" /> 
+				<ref bean="dailyAmountReportTaskTime" /> 
+				<ref bean="allFlowTimeReportTime" /> 
+				<ref bean="flowTimeReportTime" /> 
+			</list>
+		</property>
+	</bean>
+
+</beans>
